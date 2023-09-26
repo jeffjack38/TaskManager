@@ -7,27 +7,22 @@
     <title>Task List</title>
 </head>
 <body>
-    <h1>Task List</h1>
+    <h1>My Task List</h1>
+    <form method = "post" action = "NavigationServlet">
     <table>
+        <c:forEach items="${requestScope.allTasks}" var="currentTask">
         <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Actions</th>
+        	<td><input type="radio" name="id" value="${currentTask.id}" ></td>
+        	<td>${currentTask.title}</td>
+        	<td>${currentTask.description}</td>
+        	<td>${currentTask.status}</td>
         </tr>
-        <c:forEach var="task" items="${tasks}">
-            <tr>
-                <td>${task.title}</td>
-                <td>${task.description}</td>
-                <td>${task.status}</td>
-                <td>
-                    <a href="EditTask.jsp?taskId=${task.id}">Edit</a> |
-                    <a href="DeleteTaskServlet?taskId=${task.id}">Delete</a>
-                </td>
-            </tr>
         </c:forEach>
     </table>
-    <br>
-    <a href="AddTask.jsp">Add New Task</a>
+    <br />
+    <input type = "submit" value = "edit" name="doThisToTask">
+    <input type = "submit" value = "delete" name="doThisToTask">
+    <input type = "submit" value = "add" name="doThisToTask">
+    </form>
 </body>
 </html>

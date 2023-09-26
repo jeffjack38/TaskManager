@@ -14,6 +14,10 @@ import model.TaskManager;
 public class AddTaskServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	
+	public AddTaskServlet() {
+		super();
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -22,12 +26,15 @@ public class AddTaskServlet extends HttpServlet {
         String description = request.getParameter("description");
         String status = request.getParameter("status");
         
-        // creating new task from Task class using contructor
-        Task task = new Task(0, title, description, status);
-        //use addTask() method to add user's task to the TaskManager
-        TaskManager.addTask(task);
-
-        //go to task list page
-        response.sendRedirect("TaskListServlet");
+        if (title.isEmpty() || description.isEmpty() || status.isEmpty() || title == null || description == null || status == null) {
+        	getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+        } else {
+        	Task task = new Task(title, description, status);
+        	AddTaskHelper dao = new AddTaskHelper();
+        	dao.insertItem(task);
+        	
+        	getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+        }
+        
     }
 }

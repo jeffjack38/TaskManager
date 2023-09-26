@@ -17,14 +17,34 @@ public class TaskListServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	public TaskListServlet() {
+		super();
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-		//store user input into List<Task> and use getAllTasks() method from TaskManager class to get all user input
-        List<Task> tasks = TaskManager.getAllTasks();
-        //set tasks as an attribute for rendering in JSP
-        request.setAttribute("tasks", tasks);
-        
-        //forward the request to the task list JSP page for rendering
-        request.getRequestDispatcher("task_list.jsp").forward(request, response);
-    }
+			throws ServletException, IOException {
+		AddTaskHelper dao = new AddTaskHelper();
+
+		request.setAttribute("allTasks", dao.showAllTasks());
+
+		String path = "/task_list.jsp";
+
+		if (dao.showAllTasks().isEmpty()) {
+			// if there is nothing in the list, redirect the user to the index to add a task
+			path = "/index.html";
+		}
+
+		getServletContext().getRequestDispatcher(path).forward(request, response);
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
 }

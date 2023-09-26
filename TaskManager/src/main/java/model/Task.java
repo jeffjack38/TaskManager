@@ -5,12 +5,27 @@
  */
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="task")
 public class Task {
 	//set variables
+	@Id
+	@GeneratedValue
+	@Column(name="ID")
     private int id;
+	@Column(name="TITLE")
     private String title;
+	@Column(name="DESCRIPTION")
     private String description;
+	@Column(name="STATUS")
     private String status;
+    
     
     //no arg constructor
     public Task() {
@@ -21,6 +36,12 @@ public class Task {
     public Task(int id, String title, String description, String status) {
         this.id = id;
         this.title = title;
+        this.description = description;
+        this.status = status;
+    }
+    
+    public Task(String title, String description, String status) {
+    	this.title = title;
         this.description = description;
         this.status = status;
     }

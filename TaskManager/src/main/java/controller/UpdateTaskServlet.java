@@ -16,21 +16,32 @@ public class UpdateTaskServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public UpdateTaskServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+		AddTaskHelper dao = new AddTaskHelper();
+		
 		//get updated user input from request
-        int taskId = Integer.parseInt(request.getParameter("taskId"));
+        int taskId = Integer.parseInt(request.getParameter("id"));
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String status = request.getParameter("status");
         
         //Create an new updated task with the details from user
-        Task updatedTask = new Task(taskId, title, description, status);
-        //update in TaskManager updateTask()
-        TaskManager.updateTask(updatedTask);
+        Task taskToUpdate = dao.searchForTaskById(taskId);
+        taskToUpdate.setTitle(title);
+        taskToUpdate.setDescription(description);
+        taskToUpdate.setStatus(status);
+        
+        dao.updateTask(taskToUpdate);
+        
 
-        //redirect to task_list from TaskListServlet
-        response.sendRedirect("TaskListServlet");
+        getServletContext().getRequestDispatcher("/TaskListServlet").forward(request, response);
+        
     }
 }
