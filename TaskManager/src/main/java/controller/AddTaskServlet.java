@@ -33,7 +33,7 @@ public class AddTaskServlet extends HttpServlet {
         	AddTaskHelper dao = new AddTaskHelper();
         	dao.insertItem(task);
         	
-        	getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+        	getServletContext().getRequestDispatcher("/TaskListServlet").forward(request, response);
         }
         
     }
